@@ -1,0 +1,29 @@
+ConcurrentUnitTest
+__________________
+
+ConcurrentUnitTest allows to run unit tests concurrently.
+Ruby interpreter does not use native threads, so if the unit tests are CPU bound then 
+there is no need to run unit tests concurrently. If unit tests IO bound, especially 
+if they write/read database, running them concurrently can dramatically speed up execution.
+If you use JRuby even running CPU bound tests may be beneficial, because JRuby uses
+native threads, so eventually different tests may run on different cores.
+
+
+Sample usage.
+
+require 'test/unit/concurrent/concurrenttestunit'
+
+class MyTestCase < Test::Unit::ConcurrentTestCase
+
+  def test_one
+  end
+
+  def test_two
+  end	
+end
+
+Test::Unit::Concurrent::ConcurrentTestRunner.run(MyTestCase) 
+
+
+
+
